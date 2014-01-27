@@ -20,11 +20,13 @@ public class VerifyTask extends AsyncTask<String, Integer, Version> {
 	private ResponseParser parser;
 	private ResponseCallback callback;
 	private Context context;
+    private boolean isShowHint;
 	
-	public VerifyTask(Context context,ResponseParser parser, ResponseCallback callback){
+	public VerifyTask(Context context,ResponseParser parser, ResponseCallback callback, boolean isShowHint){
 		this.parser = parser;
 		this.context = context;
 		this.callback = callback;
+        this.isShowHint = isShowHint;
 	}
 	
 	@Override
@@ -50,7 +52,7 @@ public class VerifyTask extends AsyncTask<String, Integer, Version> {
         if(comparedWithCurrentPackage(latestVersion)){
 			callback.onFoundLatestVersion(latestVersion);
 		}else{
-			callback.onCurrentIsLatest();
+			callback.onCurrentIsLatest(isShowHint);
 		}
     } 
 	

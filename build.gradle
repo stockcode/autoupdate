@@ -4,7 +4,7 @@ buildscript {
   }
 
   dependencies {
-    classpath 'com.android.tools.build:gradle:0.5.+'
+    classpath 'com.android.tools.build:gradle:0.6.+'
   }
 }
 
@@ -25,7 +25,7 @@ dependencies {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '1.6'
+    gradleVersion = '1.8'
 }
 
 android {
@@ -33,15 +33,12 @@ android {
   buildToolsVersion '17'
 }
 
-android.libraryVariants
+def artifactName = "build/libs/autoupdate-${project.version}.aar"
+
 publishing {
     publications {
         maven(MavenPublication) {
-            artifact bundleRelease
+            artifact file(artifactName)
         }
-    }
-
-    repositories {
-        mavenLocal();
     }
 }

@@ -33,6 +33,8 @@ public interface AppUpdate {
 	 */
 	void checkLatestVersion(String url, ResponseParser parser);
 
+    void checkLatestVersionSilent(String url, ResponseParser parser);
+
 	/**
 	 * 从指定版本中下载并安装APK文件
 	 * 

@@ -42,18 +42,23 @@ public class AppUpdateService{
 		
 		@Override
 		public void checkLatestVersion(String url, ResponseParser parser) {
-			checkVersion(url, parser, false);
+			checkVersion(url, parser, false, true);
 		}
+
+        @Override
+        public void checkLatestVersionSilent(String url, ResponseParser parser) {
+            checkVersion(url, parser, false, false);
+        }
 		
 		@Override
 		public void checkAndUpdateDirectly(String url, ResponseParser parser) {
-			checkVersion(url, parser, true);
+			checkVersion(url, parser, true, true);
 		}
 		
-		void checkVersion(String url, ResponseParser parser, boolean isUpdateDirectly){
+		void checkVersion(String url, ResponseParser parser, boolean isUpdateDirectly, boolean isShowHint){
 			updateDirectly = isUpdateDirectly;
 			if(isNetworkActive()){
-				VerifyTask task = new VerifyTask(context,parser,this);
+				VerifyTask task = new VerifyTask(context,parser,this, isShowHint);
 				task.execute(url);
 			}
 		}
@@ -116,10 +121,11 @@ public class AppUpdateService{
 		}
 		
 		@Override
-		public void onCurrentIsLatest() {
+		public void onCurrentIsLatest(boolean isShowHint) {
 			if(customShowingDelegate != null){
 				customShowingDelegate.showIsLatestVersion();
-			}else{
+			}
+            else if (isShowHint) {
 		        Toast.makeText(context, R.string.is_latest_version_label, Toast.LENGTH_LONG).show();
 			}
 		}
